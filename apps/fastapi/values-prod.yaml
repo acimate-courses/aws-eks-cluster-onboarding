@@ -1,0 +1,21 @@
+replicaCount: 3
+image:
+  tag: "prod"
+ingress:
+  host: api.acimate.com
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: api.acimate.com
+resources:
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+  limits:
+    cpu: "1"
+    memory: "1Gi"
+config:
+  LOG_LEVEL: "info"
+secrets:
+  EXAMPLE_SECRET: "prod-secret"
+autoscaling:
+  minReplicas: 3
+  maxReplicas: 10

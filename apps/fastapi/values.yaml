@@ -1,0 +1,61 @@
+image:
+  repository: 707690426194.dkr.ecr.us-east-1.amazonaws.com/aws-eks-cluster-fastapi-app
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  className: alb
+  host: api.acimate.com
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    external-dns.alpha.kubernetes.io/hostname: api.example.com
+  path: /
+  pathType: Prefix
+  # Optional TLS (HTTPS). When set, also change listen-ports and add cert ARN annotation.
+  tls:
+    enabled: false
+    certificateArn: ""
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+probes:
+  path: /healthz
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 2
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 60
+
+# Key/value pairs exposed via ConfigMap
+config:
+  APP_NAME: "fastapi"
+  LOG_LEVEL: "info"
+
+# Non-sensitive example values; replace in env-specific files or use ESO/SealedSecrets for real secrets
+secrets:
+  EXAMPLE_SECRET: "changeme"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
