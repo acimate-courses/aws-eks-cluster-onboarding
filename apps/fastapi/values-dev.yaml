@@ -1,6 +1,6 @@
 replicaCount: 1
 image:
-  tag: "dev"
+  tag: "latest"
 ingress:
   host: api-dev.acimate.com
   annotations:
