@@ -1,0 +1,10 @@
+apiVersion: v2
+name: cilium
+description: Heml chart for Cilium CNI
+type: application
+version: 0.1.0
+apiVersion: "1.0.0"
+dependencies:
+  - name: cilium
+    version: "*"
+    repository: "https://helm.cilium.io"

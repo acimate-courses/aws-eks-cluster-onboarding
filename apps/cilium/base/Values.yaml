@@ -1,0 +1,61 @@
+cilium:
+  installCRD: true
+  nodeSelector:
+    eks.amazonaws.com/compute-type: hybrid
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+              - hybrid
+  operator:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+              - hybrid
+    rollOutPods: true
+    unmanagedPodWatcher:
+      restart: false
+  cni:
+    exclusive: true
+    install: true
+    uninstal: true
+  enableIPv4Masquerade: false
+  routingMode: native
+  hubble:
+    relay:
+      enabled: true
+    ui:
+      enabled: true
+  envoy:
+    enabled: false
+  MTU: 1500
+  ipam:
+    mode: cluster-pool
+    operator:
+      clusterPoolIPv4MaskSize: 25
+      clusterPoolIPv4PodCIDRList: []
+    hybridMode:
+      enabled: true
+    bgp:
+      enabled: true
+      announce:
+        loadbalancerIP: true
+        ClusterIP: true
+        ExternalIP: true
+        podCIDR: true
+      neighbours: []
+bgpControlPlane:
+  enabled: true
+bgp:
+  enabled: true
+  localASN: 65500
+  peers: []

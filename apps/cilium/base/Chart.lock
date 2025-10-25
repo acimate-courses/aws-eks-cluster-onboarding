@@ -1,0 +1,6 @@
+dependencies:
+  - name: cilium
+    repository: https://heml.cilium.io/
+    version: 1.17.5
+digest: sha256:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+generated: "timestamp"

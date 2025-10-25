@@ -1,0 +1,90 @@
+cilium:
+  ipam:
+    mode: cluster-pool
+    operator:
+      clusterPoolIPIPv4MaskSize: xx
+      clusterPoolIPv4PodCIDRList:
+      - xx.xx.xx.xx/xx
+  loadBalancer:
+    serviceTopology: true
+    cidr: "xx.xx.xx.xx/xx"
+  operator:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: eks.amazonaws.com/compute-type
+                operator: In
+                values:
+                  - hybrid
+    rollOutPods: true
+    unmanagedPodWatcher:
+      restart: true
+  bgp:
+    enabled: true
+    localASN: 64600
+    peers:
+      - name: "on-prem-router-1"
+        peerASN: 65500 # this is the Cisco ACI router ASN
+        peerAddress: xx.xx.xx.xx #BGP Peer 1
+      - name: "on-prem-router-2"
+        peerASN: 65500 # this is the Cisco ACI router ASN
+        peerAddress: yy.yy.yy.yy #BGP Peer 2
+  vtep:
+    enabled: false
+    endpoint: ""
+    cidr: ""
+    mask: ""
+    mac: ""
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: In
+            values:
+              - hybrid
+ipam:
+  mode: cluster-pool
+  operator:
+    clusterPoolIPv4MaskSize: 25
+    clusterPoolIPv4PodCIDRList:
+      - xx.xx.xx.xx/xx
+loadBalancer:
+    serviceTopology: true
+    cidr: "xx.xx.xx.xx/xx"
+operator:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: eks.amazonaws.com/compute-type
+                operator: In
+                values:
+                  - hybrid
+    rollOutPods: true
+    unmanagedPodWatcher:
+      restart: false
+envoy:
+  enabled: false
+bgpControlPlane:
+  enabled: true
+bgp:
+  enabled: true
+  localASN: 65500
+  peers:
+    - name: "on-prem-router-1"
+      peerASN: 65500 # this is the Cisco ACI router ASN
+      peerAddress: xx.xx.xx.xx #BGP Peer 1
+    - name: "on-prem-router-2"
+      peerASN: 65500 # this is the Cisco ACI router ASN
+      peerAddress: yy.yy.yy.yy #BGP Peer 2
+vtep:
+    enabled: false
+    endpoint: ""
+    cidr: ""
+    mask: ""
+    mac: ""
